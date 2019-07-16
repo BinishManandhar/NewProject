@@ -1,0 +1,145 @@
+<section class="content">
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item active"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/index/create">Create Post</a></li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Name/Slug</th>
+                                <th>Status</th>
+                                <th>Parent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%for(var i=0;i<data.length;i++){%>
+                            <tr>
+                                <td>
+                                    <%=data[i].Title%>
+                                </td>
+                                <td>
+                                    <%=data[i].Slug%>
+                                </td>
+                                <td>
+                                    <%=data[i].Status%>
+                                </td>
+                                <td>
+                                    <%=data[i].Parent%>
+                                </td>
+                                <td>
+                                    <button onclick="parentBttn('<%=data[i].Slug%>')" type="button"
+                                        class="btn btn-primary parent-button">Select Parent</button>
+                                </td>
+                                <td>
+                                    <a href="/index/edit/<%=data[i].Slug%>"><i class="fas fa-edit"></i></a>
+                                </td>
+                                <td>
+                                    <a onclick="deleteClick('<%=data[i].Slug%>')"><i class="fa fa-trash"></i></button>
+                                        <a id="deleteHref"></a>
+                                </td>
+                            </tr>
+                            <%}%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button id="deleteBttn" type="button" class="btn
+                            btn-primary" data-dismiss="modal">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Select Parent Modal -->
+    <div class="modal fade" id="parentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Select Parent</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Parent:</label>
+                            <select id="parentSelect" class="form-control" name="Parent">
+                                <option value="none">None</option>
+                                <%for(var i=0;i<data.length;i++){%>
+                            <option value="<%=data[i].Slug%>"><%=data[i].Slug%></option>
+                            <%}%>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="parentSelectBttn" type="button" class="btn btn-primary" data-dismiss="modal">Select</button>
+                    <a id="parentHref"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+<%-contentFor('script')%>
+                            <script>
+                                function deleteClick(slug) {
+
+                                    $('div.modal-body').html("Are you sure you want to delete '" + slug + "'");
+                                    $('#exampleModal').modal('show');
+                                    $('button#deleteBttn').click(function () {
+                                        $('a#deleteHref').attr("href", "/index/delete/" + slug);
+                                        $('a#deleteHref')[0].click();
+                                    });
+                                }
+
+                                function parentBttn(slug) {
+                                    $('div#parentModal').modal('show');
+                                    $('button#parentSelectBttn').click(function () {
+                                        $('a#parentHref').attr("href", "/index/parent/" + $('select#parentSelect').val() + "/" + slug);
+                                        $('a#parentHref')[0].click();
+                                    });
+                                }
+
+                            </script>

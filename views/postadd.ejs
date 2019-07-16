@@ -1,0 +1,181 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/index">Home</a></li>
+                        <li class="breadcrumb-item active">
+                            <%=where%> Post
+                        </li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+
+    <section class="content">
+        <div class="container-fluid">
+            <form class="form-horizontal" action="/index/create" method="POST" id="postForm"
+                enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-lg-8 col-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row form-group">
+                                    <label class="control-label col-sm-4" for="Title">Title:</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="Title" id="title"
+                                            value="<%=data.Title%>">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="control-label col-sm-4" for="Slug">Name/Slug:</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="slug" name="Slug"
+                                            value="<%=data.Slug%>" readonly>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="control-label col-sm-4" for="Desc">Details:</label>
+                                    <div class="col-sm-12">
+                                        <textarea id="Detail" type="text" rows="8" cols="10" class="form-control"
+                                            name="Details"><%=data.Details%></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-6">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row form-group">
+                                            <label class="control-label col-sm-4" for="SEOTitle">SEO Title:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" name="SEOTitle"
+                                                    value="<%=data.SEOTitle%>">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label class="control-label col-sm-6" for="SEODesc">SEO Description:</label>
+                                            <div class="col-sm-12">
+                                                <textarea type="text" rows="5" class="form-control"
+                                                    name="SEODescription"><%=data.SEODescription%></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label class="control-label col-sm-4" for="Status">Status:</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" name="Status">
+                                                    <option value="Draft">Draft</option>
+                                                    <option value="Unpublished">Unpublished</option>
+                                                    <option value="Published">Published</option>
+                                                    <option value="Archived">Archived</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label class="control-label col-sm-4" for="Type">Type:</label>
+                                            <div class="col-sm-4">
+                                                <select class="form-control" name="Type">
+                                                    <option value="Post">Post</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row form-group">
+                                            <label class="control-label col-sm-6" for="IsParent">Featured Image:</label>
+                                            <div class="col-sm-10  featured-img-dimension">
+                                                <%if(typeof data.FeaturedImage != "undefined"){%>
+                                                <img class="img-fluid featured-img-size" src="/<%=data.FeaturedImage%>"
+                                                    height="200" width="200"></img>
+                                                <%}%>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <input name="FeaturedImage" type="file">
+                                                    <br><br>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="center-button popup">
+                        <button type="submit" class="btn btn-dark" id="submitBttn"><%=button%></button>
+                                            </div>
+            </form>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<%-contentFor('script')%>
+<script src="/javascripts/ckeditor.min.js"></script>
+<script>
+    $('input#title').change(function () {
+        $('input#slug').val(slugify($('input#title').val()));
+    });
+    $(document).ready(function () {
+        if ("<%= data.Status %>" != "") {
+            $("#statusBttn").text("<%=data.Status%>");
+            $("#statusBttn").val("<%=data.Status%>");
+            $("#typeBttn").text("<%=data.Type%>");
+            $("#typeBttn").val("<%=data.Type%>");
+        }
+        else {
+            $("#statusBttn").text("Draft");
+            $("#statusBttn").val("Draft");
+            $("#typeBttn").text("Post");
+            $("#typeBttn").val("Post");
+        }
+    });
+    $("#status-dropdown-menu").on('click', 'a', function () {
+        $("#statusBttn").text($(this).text());
+        $("#statusBttn").val($(this).text());
+    });
+
+
+    ClassicEditor.create(document.querySelector('#Detail'), {
+        toolbar: { viewportTopOffset: 50 },
+    }).then(e => {
+        editorCK = e;
+    }).catch(error => {
+        console.error(error);
+    });
+</script>
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    $('button#submitBttn').click(function () {
+        var serializedPosts = $('form#postForm').serialize();
+        axios.post('/', serializedPosts)
+            .then(function (response) {
+                console.log(response);
+                var popup = $('span#myPopup');
+                popup.classList.toggle("show");
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            });
+    });
+
+</script> -->

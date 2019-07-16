@@ -1,0 +1,9 @@
+{
+    "SitePort": 8080,
+    "APIPort": 5005,
+    "DBURL": "mongodb://localhost:27017/",
+    "DB": "NewProject",
+    "SecretKey": "08mobaYsluCML3PPTF4pbxRRWYgq6KLQ",
+    "ServerKey": "AAAADB-v5hM:APA91bEhYa6ZZnYoQKU06BIK35t0dQEjydssf6fNiml90aO8UJLwdJs7tExVMq04dnhES4uHfUaOqzIZeitDnh_aBIzFWpKNrGwHyU6LCjUOyKkvOe73MmM2KlezcRFiuATwu38xeHWR",
+    "SessionSecret": "sometext"
+}

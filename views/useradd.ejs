@@ -1,0 +1,126 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h3><%=where%> User</h3>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+
+    <section class="content">
+        <div class="container-fluid">
+            <form class="form-horizontal" action="/index/users/add" method="POST" id="userForm">
+                <div class="row">
+                    <div class="col-lg-12 col-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="row form-group col-sm-7">
+                                        <label class="control-label col-sm-3" for="Title">Full Name:</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="FullName"
+                                                value="<%=data.FullName%>">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group col-sm-5">
+                                        <label class="control-label col-sm-3" for="Username">Username:</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="UserName"
+                                                value="<%=data.UserName%>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="row form-group col-sm-7">
+                                        <label class="control-label col-sm-3" for="Email">Email Id:</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="Email"
+                                                value="<%=data.Email%>">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group col-sm-5">
+                                        <label class="control-label col-sm-3" for="Phone">Phone No.:</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="Phone"
+                                                value="<%=data.Phone%>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="row form-group col-sm-7">
+                                        <label class="control-label col-sm-3" for="Password">Password:</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="password" name="Password">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group col-sm-5">
+                                        <label class="control-label col-sm-3" for="AliasName">Alias Name:</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="AliasName"
+                                                placeholder="Optional" value="<%=data.AliasName%>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="row form-group col-sm-7">
+                                        <label class="control-label col-sm-3" for="Menus">Menus:</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="Menus"
+                                                value="<%=data.Menus%>">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group col-sm-5">
+                                        <label class="control-label col-sm-3" for="Role">Role:</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" name="Role">
+                                                <option value="Author">Author</option>
+                                                <option value="Editor">Editor</option>
+                                                <option value="Admin">Admin</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <center>
+                                    <div class="row center-button popup">
+                                        <button type="submit" class="btn btn-dark" id="submitBttn"><%=button%></button>
+                                    </div>
+                                </center>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<%-contentFor('script')%>
+<script src="/javascripts/ckeditor.min.js"> </script>
+<script>
+    $('input#title').change(function () {
+        $('input#slug').val(slugify($('input#title').val()));
+    });
+    $(document).ready(function () {
+        $('select option[value="<%=data.Role%>"]').attr("selected", true);
+    });
+
+    ClassicEditor.create(document.querySelector('#Detail'), {
+        toolbar: { viewportTopOffset: 50 },
+    }).then(e => {
+        editorCK = e;
+    }).catch(error => {
+        console.error(error);
+    });
+</script>
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
